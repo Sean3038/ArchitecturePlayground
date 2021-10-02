@@ -6,30 +6,29 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
 
 
 
-
 ## 目錄
 1. [飲料販賣機](#vendor)
-	1.1. [流程](#vendor-process)
-	1.2. [畫面](#vendor-screen)
-	1.3. [職責](#vendor-responsible)
+	* 1.1. [流程](#vendor-process)
+	* 1.2. [畫面](#vendor-screen)
+	* 1.3. [職責](#vendor-responsible)
 2. [無架構 (no_arch)](#no_arch)
-	2.1. [Convention (開發慣例)](#Convention)
+	* 2.1. [Convention (開發慣例)](#Convention)
 3. [MVC (Model-View-Controller)](#MVCModel-View-Controller)
-	3.1. [View](#MVC-View)
-	3.2. [Controller](#MVC-Controller)
-	3.3. [Model](#MVC-Model)
+	* 3.1. [View](#MVC-View)
+	* 3.2. [Controller](#MVC-Controller)
+	* 3.3. [Model](#MVC-Model)
 4. [MVP(Model-View-Presenter)](#MVPModel-View-Presenter)
-	4.1. [Contracting](#Contracting)
-		4.1.1. [PassiveView](#PassiveView)
-		4.1.2. [Supervising Controller](#SupervisingController)
-	4.2. [View](#MVP-View)
-	4.3. [Presenter](#MVP-Presenter)
-	4.4. [Model](#MVP-Model)
+	* 4.1. [Contracting](#Contracting)
+		* 4.1.1. [PassiveView](#PassiveView)
+		* 4.1.2. [Supervising Controller](#SupervisingController)
+	* 4.2. [View](#MVP-View)
+	* 4.3. [Presenter](#MVP-Presenter)
+	* 4.4. [Model](#MVP-Model)
 5. [MVVM(Model-View-ViewModel)](#MVVMModel-View-ViewModel)
-	5.1. [PresentationModel](#PresentationModel)
-	5.2. [View](#MVVM-View)
-	5.3. [ViewModel](#MVVM-ViewModel)
-	5.4. [Model](#MVVM-Model)
+	* 5.1. [PresentationModel](#PresentationModel)
+	* 5.2. [View](#MVVM-View)
+	* 5.3. [ViewModel](#MVVM-ViewModel)
+	* 5.4. [Model](#MVVM-Model)
 
 
 
@@ -55,12 +54,12 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
 
 |     流程     | 實際畫面                                                     |
 | :----------: | :----------------------------------------------------------- |
-|   導覽畫面   | <img src="screenshots/screenshot_show_guide.png" style="zoom:30%;" /> |
-| 展示商品目錄 | <img src="screenshots/screenshot_show_menu.png" style="zoom:30%;" /> |
-|   確認品項   | <img src="screenshots/screenshot_confirm_product.png" style="zoom:30%;" /> |
-|   確認數量   | <img src="screenshots/screenshot_confirm_count.png" style="zoom:30%;" /> |
-| 顯示結帳資訊 | <img src="screenshots/screenshot_result.png" style="zoom:30%;" /> |
-|   關閉程式   | <img src="screenshots/screenshot_shutdown.png" style="zoom:30%;" /> |
+|   導覽畫面   | <img src="screenshots/screenshot_show_guide.png" height="50%" width="50%" /> |
+| 展示商品目錄 | <img src="screenshots/screenshot_show_menu.png" height="50%" width="50%" /> |
+|   確認品項   | <img src="screenshots/screenshot_confirm_product.png" height="50%" width="50%" /> |
+|   確認數量   | <img src="screenshots/screenshot_confirm_count.png" height="50%" width="50%" /> |
+| 顯示結帳資訊 | <img src="screenshots/screenshot_result.png" height="50%" width="50%" /> |
+|   關閉程式   | <img src="screenshots/screenshot_shutdown.png" height="50%" width="50%" /> |
 
 
 
