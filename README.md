@@ -70,22 +70,23 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
 
 ```java
 /**使用者操作*/
-	private void onUserInput(String input) {
-		input = input.trim();
-		if ("q".equals(input)) {
-			state = State.Shutdown;
-			onShutdown();
+private void onUserInput(String input) {
+  input = input.trim();
+  if ("q".equals(input)) {
+    state = State.Shutdown;
+    onShutdown();
 
-		} else if (state == State.ShowGuide) { //根據販賣機狀態接受input
-			if ("m".equals(input)) {
-				state = State.ShowMenu; //使用者操作後根據販賣機邏輯，改變販賣機狀態
-				onShowMenu();
-			} else {
-				onInvalidInput(); //當發生未預期輸入時，通知介面提示使用者異常操作
-			}
+  } else if (state == State.ShowGuide) { //根據販賣機狀態接受input
+    if ("m".equals(input)) {
+      state = State.ShowMenu; //使用者操作後根據販賣機邏輯，改變販賣機狀態
+      onShowMenu();
+    } else {
+      onInvalidInput(); //當發生未預期輸入時，通知介面提示使用者異常操作
+    }
 
-		} else if (state == State.ShowMenu) {
-	...
+  } else if (state == State.ShowMenu) {
+         ...
+}
 ```
 
 
@@ -95,19 +96,19 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
    進入販賣機的指定狀態所執行的邏輯，將會以on+{State}命名，如onShowGuide、onShutdown
 
 ```java
-	private void onShowMenu() {
-		boolean isAllProductSoldOut = true;
-		for (Product product : productList) {
-			if (product.getRemainCount() > 0) {
-				isAllProductSoldOut = false; 
-				break;
-			}
-		}
-		if (isAllProductSoldOut) {
-			showMessage("\n抱歉商品已售罄\n"); //根據販賣機邏輯，顯示提示訊息
-			state = State.ShowGuide; //因商品全數售出，狀態回退至顯示導覽頁
-		}
-	}
+private void onShowMenu() {
+  boolean isAllProductSoldOut = true;
+  for (Product product : productList) {
+    if (product.getRemainCount() > 0) {
+      isAllProductSoldOut = false; 
+      break;
+    }
+  }
+  if (isAllProductSoldOut) {
+    showMessage("\n抱歉商品已售罄\n"); //根據販賣機邏輯，顯示提示訊息
+    state = State.ShowGuide; //因商品全數售出，狀態回退至顯示導覽頁
+  }
+}
 ```
 
 
@@ -158,19 +159,19 @@ private final Keyboard keyboard;
 /** UI元件 螢幕 */
 public class Monitor {
 
-	public void showMessage(String message) {
-		System.out.println(message);
-	}
+  public void showMessage(String message) {
+    System.out.println(message);
+  }
 }
 
 /** UI元件 鍵盤 */
 public class Keyboard {
 
-	private final Scanner scanner = new Scanner(System.in);
+  private final Scanner scanner = new Scanner(System.in);
 
-	public String input() {
-		return scanner.nextLine();
-	}
+  public String input() {
+    return scanner.nextLine();
+  }
 }
 ```
 
@@ -200,35 +201,35 @@ private final Keyboard keyboard;
 private final VendorModel vendorModel;
 
 private void startApplication() {
-	isRunning = true;
-	while (isRunning) {
-		...
+  isRunning = true;
+  while (isRunning) {
+    ...
 
-		String input = keyboard.input(); // View 通知接收到的訊息
+    String input = keyboard.input(); // View 通知接收到的訊息
 
-		onUserInput(input); // 根據收到的訊息Controller進行後續處理
-	}
+    onUserInput(input); // 根據收到的訊息Controller進行後續處理
+  }
 }
 
 ...
   
 private void onShowMenu() {
-	Call<Boolean> isNoProductRemain = vendorModel.isNoProductRemain(); // Model執行商品數量的確認
-	if (isNoProductRemain.get()) { // 通知結果，由Controller決定後續流程
-		monitor.showMessage("\n抱歉商品已售罄\n");
-		state = State.ShowGuide;
-	}
+  Call<Boolean> isNoProductRemain = vendorModel.isNoProductRemain(); // Model執行商品數量的確認
+  if (isNoProductRemain.get()) { // 通知結果，由Controller決定後續流程
+    monitor.showMessage("\n抱歉商品已售罄\n");
+    state = State.ShowGuide;
+  }
 }
 
 ...
   
 private void showConfirmProduct(Product product) {
-	 StringBuilder stringBuilder = new StringBuilder();
-	 stringBuilder.append("\n您要的是 ");
-	 stringBuilder.append(product.getName());
-	 stringBuilder.append("(售價").append(product.getPrice()).append(")");
-	 stringBuilder.append("嗎?(y/n)");
-	 monitor.showMessage(stringBuilder.toString()); // View 顯示Controller交付的更新資料
+   StringBuilder stringBuilder = new StringBuilder();
+   stringBuilder.append("\n您要的是 ");
+   stringBuilder.append(product.getName());
+   stringBuilder.append("(售價").append(product.getPrice()).append(")");
+   stringBuilder.append("嗎?(y/n)");
+   monitor.showMessage(stringBuilder.toString()); // View 顯示Controller交付的更新資料
 }
 ...
 ```
@@ -301,9 +302,9 @@ public Call<Product> getProduct(int index) {
 
 ```java
 舉例，軟體工程師合約書
-	1. JAVA
-	2. SQL
-	3. PYTHON
+  1. JAVA
+  2. SQL
+  3. PYTHON
 	
 老闆 has a 軟體工程師
 老闆 invoke 軟體工程師.JAVA();
@@ -325,30 +326,30 @@ public Call<Product> getProduct(int index) {
 //舉例
 interface OrderView{ //Contract
 
-		TextView getTextOrderName();//帳單名稱
-		
-		ImageView getTextProductImage();//商品圖片
-		
-		TextView getTextProductName();//商品名稱
-		
-		TextView getTextProductDescribe();//商品說明
-		
-		ListView getListViewPurchaseCart();//購物車清單
-		
-		Button getButtonPurchase();//結帳按鈕
+  TextView getTextOrderName();//帳單名稱
+
+  ImageView getTextProductImage();//商品圖片
+
+  TextView getTextProductName();//商品名稱
+
+  TextView getTextProductDescribe();//商品說明
+
+  ListView getListViewPurchaseCart();//購物車清單
+
+  Button getButtonPurchase();//結帳按鈕
 }
 
 public class OrderViewImpl implement OrderView{
 		
-		TextView getTextOrderName(){ //帳單名稱
-				return findViewById(R.id.textOrderName);
-		}
-		
-		ImageView getTextProductImage(){ //商品圖片
-				return findViewById(R.id.textProductImage);
-		}
-		
-		...
+  TextView getTextOrderName(){ //帳單名稱
+    return findViewById(R.id.textOrderName);
+  }
+
+  ImageView getTextProductImage(){ //商品圖片
+    return findViewById(R.id.textProductImage);
+  }
+
+  ...
 }
 ```
 
@@ -361,29 +362,29 @@ public class OrderViewImpl implement OrderView{
 ```java
 interface OrderView { //Contract
 
-		void 顯示帳單(帳單 bill);
+  void 顯示帳單(帳單 bill);
 		
-		void 顯示購物車(購物車 purchaseCart);
+  void 顯示購物車(購物車 purchaseCart);
 		
-		void 顯示商品明細(商品 product);
+  void 顯示商品明細(商品 product);
 }
 
 public class OrderViewImpl implement OrderView{
 		
-		@Override
-		public void 顯示帳單(帳單 bill){
-				.....
-		}
+  @Override
+  public void 顯示帳單(帳單 bill){
+    ...
+  }
 		
-		@Override
-		void 顯示購物車(購物車 purchaseCart){
-				.....
-		}
+  @Override
+  void 顯示購物車(購物車 purchaseCart){
+    ...
+  }
 		
-		@Override
-		void 顯示商品明細(商品 product){
-				.....
-		}
+  @Override
+  void 顯示商品明細(商品 product){
+    ...
+  }
 }
 ```
 
@@ -407,50 +408,50 @@ public class OrderViewImpl implement OrderView{
 /**View Contract*/
 public interface VendorView {
 
-	void showGuide(); 
+  void showGuide(); 
 
-	...
+  ...
 }
 
 /**View Contract Implement*/
 public class VendorViewImplement implements VendorView {
 
-	/** UI元件 */
-	private final Monitor monitor = new Monitor();
-	private final Keyboard keyboard = new Keyboard();
+  /** UI元件 */
+  private final Monitor monitor = new Monitor();
+  private final Keyboard keyboard = new Keyboard();
 	
-	/** Presenter */
-	private final VendorPresenter presenter;
+  /** Presenter */
+  private final VendorPresenter presenter;
 
-	private boolean isRunning = false;
+  private boolean isRunning = false;
 
-	public VendorViewImplement(VendorPresenter presenter) {
-		this.presenter = presenter; // 綁定Presenter以供後續接收到使用者操作後呼叫
-	}
+  public VendorViewImplement(VendorPresenter presenter) {
+    this.presenter = presenter; // 綁定Presenter以供後續接收到使用者操作後呼叫
+  }
   
   private void startApplication() {
-		presenter.bindView(this); // 綁定 presenter
-		isRunning = true;
-		while (isRunning) {
-			presenter.showCurrentState();
-			String input = keyboard.input();
-			presenter.onUserInput(input);
-		}
-		presenter.unBindView(); // 解除綁定 presenter
-	}
+    presenter.bindView(this); // 綁定 presenter
+    isRunning = true;
+    while (isRunning) {
+      presenter.showCurrentState();
+      String input = keyboard.input();
+      presenter.onUserInput(input);
+    }
+    presenter.unBindView(); // 解除綁定 presenter
+  }
 
-	...
+  ...
     
-	/** 顯示UI */
-	@Override
-	public void showGuide() { // View擁有了展示訊息的模板
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("\n～～歡迎，飲料訂起來～～\n");
-		stringBuilder.append("(m) 菜單\n");
-		stringBuilder.append("(q) 離開");
-		monitor.showMessage(stringBuilder.toString());
-	}
-  
+  /** 顯示UI */
+  @Override
+  public void showGuide() { // View擁有了展示訊息的模板
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("\n～～歡迎，飲料訂起來～～\n");
+    stringBuilder.append("(m) 菜單\n");
+    stringBuilder.append("(q) 離開");
+    monitor.showMessage(stringBuilder.toString());
+  }
+
   ...
 }
 ```
@@ -470,48 +471,46 @@ public class VendorViewImplement implements VendorView {
 public class VendorPresenter {
 
   ...
-    
-	/**程式狀態*/
-	private State state = State.ShowGuide;
-	private Product selectedProduct = null;
-	private int selectedCount = 0;
+  /**程式狀態*/
+  private State state = State.ShowGuide;
+  private Product selectedProduct = null;
+  private int selectedCount = 0;
+  
+  /**View*/
+  private VendorView vendorView;
 
-	/**View*/
-	private VendorView vendorView;
+  /**Model*/
+  private final VendorModel vendorModel;
 
-	/**Model*/
-	private final VendorModel vendorModel;
+  VendorPresenter(VendorModel vendorModel) {
+     this.vendorModel = vendorModel;
+  }
 
-	VendorPresenter(VendorModel vendorModel) {
-		this.vendorModel = vendorModel;
-	}
+  /**綁定View*/
+  public void bindView(VendorView vendorView) {
+    this.vendorView = vendorView;
+  }
 
-	/**綁定View*/
-	public void bindView(VendorView vendorView) {
-		this.vendorView = vendorView;
-	}
+  /**解除綁定View*/
+  public void unBindView(){
+    this.vendorView = null;
+  }
 
-	/**解除綁定View*/
-	public void unBindView(){
-		this.vendorView = null;
-	}
+  /**看目前階段畫面*/
+  public void showCurrentState() {
+    if (state == State.ShowGuide) {
+      vendorView.showGuide(); // 呼叫View Contract上的展示功能
+      
+    } else if (state == State.ShowMenu) {
+       ...
+    }
 
-	/**看目前階段畫面*/
-	public void showCurrentState() {
-		if (state == State.ShowGuide) {
-			vendorView.showGuide(); // 呼叫View Contract上的展示功能
-
-		} else if (state == State.ShowMenu) {
-		...
-	}
-
-	/**使用者輸入介面*/
-	public void onUserInput(String input) { // 接收View傳遞過來的UserInput
-		...
-	}
-
+    /**使用者輸入介面*/
+    public void onUserInput(String input) { // 接收View傳遞過來的UserInput
 	...
-
+    }
+    ...
+    
 }
 ```
 
@@ -604,7 +603,6 @@ private void unbindViewModel() {
 ```
 
 
-
 ### ViewModel
 
 不同於Controller與Presenter，ViewModel完全不知道View的存在，他的更新手段是直接更新數據，都過數據更新通知更新View層的元件，當中所包含的職責有：
@@ -668,7 +666,7 @@ public void onUserInput(String input) {
     }
 
   } else if (state == State.ShowMenu) {
- 	...
+  ...
 
   syncCurrentState(); //同步程式狀態與對外狀態
 }
