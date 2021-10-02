@@ -1,24 +1,47 @@
-
-
 # ArchitecturePlayground
 
 ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構演進至MVVM的過程，使用無架構與MVC、MVP、MVVM 三種框架實作飲料販賣機，並根據架構特點進行說明。建議搭配原始碼註解與不同的階段的框架介紹進行閱讀。
 
 
+## 目錄
+* 1. [飲料販賣機](#)
+	* 1.1. [流程](#-1)
+	* 1.2. [畫面](#-1)
+	* 1.3. [職責](#-1)
+* 2. [無架構 (no_arch)](#no_arch)
+	* 2.1. [Convention (開發慣例)](#Convention)
+* 3. [MVC (Model-View-Controller)](#MVCModel-View-Controller)
+	* 3.1. [View](#View)
+	* 3.2. [Controller](#Controller)
+	* 3.3. [Model](#Model)
+* 4. [MVP(Model-View-Presenter)](#MVPModel-View-Presenter)
+	* 4.1. [Contracting](#Contracting)
+		* 4.1.1. [PassiveView](#PassiveView)
+		* 4.1.2. [Supervising Controller](#SupervisingController)
+	* 4.2. [View](#View-1)
+	* 4.3. [Presenter](#Presenter)
+	* 4.4. [Model](#Model-1)
+* 5. [MVVM(Model-View-ViewModel)](#MVVMModel-View-ViewModel)
+	* 5.1. [PresentationModel](#PresentationModel)
+	* 5.2. [View](#View-1)
+	* 5.3. [ViewModel](#ViewModel)
+	* 5.4. [Model](#Model-1)
 
-## 飲料販賣機
+
+
+##  1. <a name=''></a>飲料販賣機
 
 實作飲料販賣機，可以查看飲料品項，指定欲訂購的飲品後確認購買數量進行結帳，結帳後可回退至導覽畫面。
 
 
 
-### 流程
+###  1.1. <a name='-1'></a>流程
 
 根據要求設計出以下流程：
 
 ![飲料販賣機](screenshots/Vender.png)
 
-### 畫面
+###  1.2. <a name='-1'></a>畫面
 
 |     流程     | 實際畫面                                                     |
 | :----------: | :----------------------------------------------------------- |
@@ -29,7 +52,7 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
 | 顯示結帳資訊 | <img src="screenshots/screenshot_result.png" style="zoom:50%;" /> |
 |   關閉程式   | <img src="screenshots/screenshot_shutdown.png" style="zoom:50%;" /> |
 
-### 職責
+###  1.3. <a name='-1'></a>職責
 
 在開始解釋架構前我們須釐清販賣機中有哪些職責。
 
@@ -44,7 +67,7 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
 
 
 
-## 無架構 (no_arch)
+##  2. <a name='no_arch'></a>無架構 (no_arch)
 
 準確來說程式並非一定要使用主流的架構(MVP、MVVM) 才能使專案進行，基本上只要堅守團隊的Convention與Coding Style，彼此也能夠按時交付需求，這邊所提的無架構指的是未能將職責明確地從單一程式分離而形成的God Class，更甚者系統上大部分的資訊集中於此類別造成邏輯肥大，以此牽扯出一連串的程式碼品質問題。
 
@@ -56,7 +79,7 @@ ArchitecturePlayground是一個解釋架構演進的 Java project，由無架構
 
 
 
-### Convention (開發慣例)
+###  2.1. <a name='Convention'></a>Convention (開發慣例)
 
 透過團隊內在邏輯規劃或命名規則彼此協定出的開發習慣，讓維護、開發、重構時都能夠依循著某一套標準進行，專案的開發會一直不斷的疊代需求，在初期單純使用Convention進行過渡是可行的，但隨著專案日漸龐大，總會有需要調整的規則，總有需要移除的活動，甚至人員的流動造成需求不可考。這些邏輯問題耦合於龐大的邏輯中，修改起來是相當的費力，不但要先釐清邏輯脈絡，修改時還需當心是否影響到舊有的邏輯。
 
@@ -130,7 +153,7 @@ private void showGuide() {
 
 
 
-## MVC (Model-View-Controller)
+##  3. <a name='MVCModel-View-Controller'></a>MVC (Model-View-Controller)
 
 最為最初代的架構，透過 **關注點分離(Separation of Concerns)**，將程式畫分出三個區塊，彼此各司其職，相互協作。有了基本的架構分離我們可以獲得一些好處，程式碼概念已被分離，單一類別的程式邏輯減少，使得程式更加容易閱讀理解; 再將職責分離後，可複用各層的邏輯，減少程式碼與開發成本，分配邏輯時團隊可以更有效率的分配工作。
 
@@ -144,7 +167,7 @@ private void showGuide() {
 
 
 
-### View
+###  3.1. <a name='View'></a>View
 
 將邏輯中通知使用者操作與UI展示邏輯分離到View層，在這一層中只需要專注在UI的輸入輸出，當中包含的職責：
 
@@ -177,7 +200,7 @@ public class Keyboard {
 
 
 
-### Controller
+###  3.2. <a name='Controller'></a>Controller
 
 Controller所扮演的角色為View與Model之間協調資料傳遞的角色，是MVC中職責最重的角色，當中包含的職責：
 
@@ -236,7 +259,7 @@ private void showConfirmProduct(Product product) {
 
 
 
-### Model
+###  3.3. <a name='Model'></a>Model
 
 掌管專門的邏輯，一般Model所執行的任務大多是耗時與被動的，當中包含的職責：
 
@@ -286,7 +309,7 @@ public Call<Product> getProduct(int index) {
 
 
 
-## MVP(Model-View-Presenter)
+##  4. <a name='MVPModel-View-Presenter'></a>MVP(Model-View-Presenter)
 
 在MVC的架構上我們可以發現，Controller在框架上所扮演的角色職責太重了，最主要是因為Controller需要負責UI的顯示資訊，像是訊息、動畫、畫面倒轉等UI邏輯。因此提出透過Contracting的方式透過建立interface實現控制反轉(Inversion Of Control )，將關於UI的邏輯解耦。
 
@@ -296,7 +319,7 @@ public Call<Product> getProduct(int index) {
 
 
 
-### Contracting
+###  4.1. <a name='Contracting'></a>Contracting
 
 透過制定`Interface`來畫清職責的界線，View層會制定介面讓引用者可以很清楚的知道所以有View可展示的方法或元件。
 
@@ -318,7 +341,7 @@ public Call<Product> getProduct(int index) {
 
 
 
-#### PassiveView
+####  4.1.1. <a name='PassiveView'></a>PassiveView
 
 定義需求畫面上所有元件由Presenter控制顯示邏輯
 
@@ -355,7 +378,7 @@ public class OrderViewImpl implement OrderView{
 
 
 
-#### Supervising Controller
+####  4.1.2. <a name='SupervisingController'></a>Supervising Controller
 
 展示業務層的結果，包含取用業務資料的邏輯被封裝在View層，Presenter只需要呼叫View曾提供的展示功能
 
@@ -394,7 +417,7 @@ public class OrderViewImpl implement OrderView{
 
 
 
-### View
+###  4.2. <a name='View-1'></a>View
 
 在專案中我使用Supervising Controller 作為實現Contracting的方法，當中所包含的職責：
 
@@ -458,7 +481,7 @@ public class VendorViewImplement implements VendorView {
 
 
 
-### Presenter
+###  4.3. <a name='Presenter'></a>Presenter
 
 比起Controller移除了大量UI訊息，使此時的Presenter職責更專注在數據邏輯的傳遞，而使用上需特別注意是否已綁定View，以避免NullPointerException問題，當中所包含的職責：
 
@@ -516,13 +539,13 @@ public class VendorPresenter {
 
 
 
-### Model
+###  4.4. <a name='Model-1'></a>Model
 
 與MVC的Model職責完全相同
 
 
 
-## MVVM(Model-View-ViewModel)
+##  5. <a name='MVVMModel-View-ViewModel'></a>MVVM(Model-View-ViewModel)
 
 在MVP中我們發現了，使用Contracting實現View層提供展示功能的需求，在使用的過程中發現，每當某項資源被更新後，伴隨而來畫面更新的元件總是那幾個，此時我們發現到UI元件與資料的關係，因此透過觀察者模式(ObserverPattern)實現View層的元件(Observer)觀測ViewModel的資料狀態(Observerable)，每當資料變化時就更新相對應元件，透過PresentationModel的概念，讓View與ViewModel間的耦合程度進一步降低。
 
@@ -532,7 +555,7 @@ public class VendorPresenter {
 
 
 
-#### PresentationModel
+###  5.1. <a name='PresentationModel'></a>PresentationModel
 
 透過View層元件觀測數據進而更新UI。所有的UI顯示狀態應該已PresentationModel所保留的狀態為主，如下圖AlbumTitle會去比照PresentationModel去顯示目前的Album。
 
@@ -542,7 +565,7 @@ public class VendorPresenter {
 
 
 
-### View
+###  5.2. <a name='View-1'></a>View
 
 根據PresentationModel的概念，使用ObserverPattern綁定數據，並且根據通知資訊進行UI更新，當中所包含的職責：
 
@@ -603,7 +626,7 @@ private void unbindViewModel() {
 ```
 
 
-### ViewModel
+###  5.3. <a name='ViewModel'></a>ViewModel
 
 不同於Controller與Presenter，ViewModel完全不知道View的存在，他的更新手段是直接更新數據，都過數據更新通知更新View層的元件，當中所包含的職責有：
 
@@ -674,6 +697,6 @@ public void onUserInput(String input) {
 
 
 
-### Model
+###  5.4. <a name='Model-1'></a>Model
 
 與MVC的Model職責完全相同
